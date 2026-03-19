@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Odin Library</title>
+    <link href="css/style.css" rel="stylesheet" />
+    <script src="js/script.js" defer></script>
+  </head>
+  <body>
+    <dialog id="add-book-form-dialog">
+      <form id="add-book-form">
+        <label for="title">Title</label>
+        <input type="text" id="title" name="title" value="" required />
+        <label for="author">Author</label>
+        <input type="text" id="author" name="author" value="" />
+        <label for="pages">Pages</label>
+        <input type="tel" id="pages" name="pages" value="" />
+        <label for="readStatus">Read Status</label>
+        <select name="readStatus" id="readStatus">
+          <option value="">--Please choose read status--</option>
+          <option value="Read">Read</option>
+          <option value="Unread">Unread</option>
+          <option value="Reading">Reading</option>
+        </select>
+      </form>
+      <button type="submit" id="add-book-button" form="add-book-form">
+        Add
+      </button>
+      <button commandfor="add-book-form-dialog" command="close">Close</button>
+    </dialog>
+
+    <table>
+      <caption>
+        Odin Library
+      </caption>
+      <thead>
+        <tr>
+          <th scope="col">ID</th>
+          <th scope="col">Title</th>
+          <th scope="col">Author</th>
+          <th scope="col">Pages</th>
+          <th scope="col">Status</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+    <button command="show-modal" commandfor="add-book-form-dialog">
+      Add new book
+    </button>
+  </body>
+</html>
