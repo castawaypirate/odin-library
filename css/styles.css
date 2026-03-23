@@ -1,0 +1,22 @@
+#id {
+  display: none;
+}
+
+.book-entry {
+  position: relative;
+}
+
+.popup-menu {
+  visibility: hidden;
+  position: absolute;
+  z-index: 1;
+}
+
+.show {
+  visibility: visible;
+  background-color: white;
+
+  div:hover {
+    cursor: pointer;
+  }
+}
