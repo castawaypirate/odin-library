@@ -11,22 +11,34 @@
     <dialog id="book-form-dialog">
       <form id="book-form">
         <input type="text" id="id" name="id" value="" readonly />
-        <label for="title">Title</label>
-        <input type="text" id="title" name="title" value="" required />
-        <label for="author">Author</label>
-        <input type="text" id="author" name="author" value="" />
-        <label for="pages">Pages</label>
-        <input type="tel" id="pages" name="pages" value="" />
-        <label for="readStatus">Read Status</label>
-        <select name="readStatus" id="readStatus">
-          <option value="">--Please choose read status--</option>
-          <option value="Read">Read</option>
-          <option value="Unread">Unread</option>
-          <option value="Reading">Reading</option>
-        </select>
+        <div class="form-field">
+          <label for="title">Title</label>
+          <input type="text" id="title" name="title" value="" required />
+        </div>
+        <div class="form-field">
+          <label for="author">Author</label>
+          <input type="text" id="author" name="author" value="" />
+        </div>
+        <div class="form-field">
+          <label for="pages">Pages</label>
+          <input type="tel" id="pages" name="pages" value="" />
+        </div>
+        <div class="form-field">
+          <label for="readStatus">Read Status</label>
+          <select name="readStatus" id="readStatus">
+            <option value="">--Please choose read status--</option>
+            <option value="Read">Read</option>
+            <option value="Unread">Unread</option>
+            <option value="Reading">Reading</option>
+          </select>
+        </div>
       </form>
-      <button type="submit" id="submit-button" form="book-form">Submit</button>
-      <button commandfor="book-form-dialog" command="close">Close</button>
+      <div class="form-buttons">
+        <button type="submit" id="submit-button" form="book-form">
+          Submit
+        </button>
+        <button commandfor="book-form-dialog" command="close">Close</button>
+      </div>
     </dialog>
 
     <table>
@@ -44,6 +56,6 @@
       </thead>
       <tbody></tbody>
     </table>
-    <button id="add-book">Add new book</button>
+    <button id="add-book">Add book</button>
   </body>
 </html>

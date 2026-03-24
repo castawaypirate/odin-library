@@ -1,22 +1,103 @@
+dialog {
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-field {
+    display: flex;
+    flex-direction: column;
+    margin: 0.5rem 1rem;
+
+    label {
+      margin-bottom: 0.25rem;
+    }
+  }
+
+  .form-buttons {
+    margin: 0.5rem 1rem;
+
+    button {
+      padding: 0.25rem 0.5rem;
+    }
+
+    button:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+
+  caption {
+    font-size: 2.5rem;
+    font-weight: bolder;
+    margin: 1rem;
+  }
+
+  th,
+  td {
+    border: 1px solid black;
+    width: 100%;
+  }
+
+  td {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
+
+  tbody tr:hover {
+    cursor: pointer;
+    background-color: lightgrey;
+  }
+
+  th {
+    text-align: start;
+  }
+}
+
 #id {
   display: none;
 }
 
 .book-entry {
-  position: relative;
+  position: static; /* previous I had position: relative; but there was a problem with hover background-color and border */
 }
 
 .popup-menu {
   visibility: hidden;
   position: absolute;
   z-index: 1;
+  border: 1px solid black;
+
+  .popup-option {
+    padding: 0.25rem;
+  }
+
+  .popup-option:hover {
+    cursor: pointer;
+    background-color: lightgrey;
+  }
+}
+
+.divider {
+  border-top: 1px solid black;
 }
 
 .show {
   visibility: visible;
   background-color: white;
+}
 
-  div:hover {
-    cursor: pointer;
-  }
+#add-book {
+  padding: 0.5rem 1rem;
+  margin: 1rem 0;
+}
+
+#add-book:hover {
+  cursor: pointer;
 }

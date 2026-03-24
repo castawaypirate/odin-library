@@ -43,8 +43,10 @@ function renderTable() {
     // edit/delete popup
     const popupMenu = document.createElement("div");
     const popupOptionEdit = document.createElement("div");
+    popupOptionEdit.classList.add("popup-option");
     popupOptionEdit.textContent = "Edit";
     const popupOptionDelete = document.createElement("div");
+    popupOptionDelete.classList.add("popup-option");
     popupOptionDelete.textContent = "Delete";
     // edit book
     popupOptionEdit.addEventListener("click", () => {
@@ -69,7 +71,8 @@ function renderTable() {
       renderTable();
     });
 
-    const divider = document.createElement("hr");
+    const divider = document.createElement("div");
+    divider.classList.add("divider");
     popupMenu.appendChild(popupOptionEdit);
     popupMenu.appendChild(divider);
     popupMenu.appendChild(popupOptionDelete);
@@ -124,6 +127,12 @@ document
   .addEventListener("submit", function (event) {
     event.preventDefault();
     const formData = new FormData(this);
+
+    if (!validateNumberOfPagesInput(formData.get("pages"))) {
+      alert("Bad pages input. Must be a positive integer!");
+      return;
+    }
+
     const submitButton = document.querySelector("#submit-button");
     if (submitButton.dataset.function === "add") {
       addBookToLibrary(
@@ -151,8 +160,31 @@ document.querySelector("#add-book").addEventListener("click", () => {
   document.querySelector("#submit-button").dataset.function = "add";
 });
 
-addBookToLibrary("Test title", "Test author", "201", "Read");
-addBookToLibrary("Test title", "Test author", "201", "Unread");
-addBookToLibrary("Test title", "Test author", "201", "Reading");
+function validateNumberOfPagesInput(pages) {
+  let numberOfPages = parseInt(pages);
+  if (
+    (Number.isInteger(numberOfPages) &&
+      numberOfPages > 0 &&
+      numberOfPages.toString() === pages) ||
+    pages.length === 0
+  ) {
+    return true;
+  }
+  return false;
+}
+
+addBookToLibrary("Neuromancer", "William Gibson", "271", "Read");
+addBookToLibrary(
+  "Make It Stick: The Science of Successful Learning",
+  "Peter C. Brown, Henry L. Roediger III, Mark A. McDaniel",
+  "336",
+  "Reading",
+);
+addBookToLibrary(
+  "Design Patterns: Elements of Reusable Object-Oriented Software",
+  " Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides",
+  "416",
+  "Unread",
+);
 
 renderTable();
