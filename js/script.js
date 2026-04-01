@@ -1,22 +1,71 @@
-// book list
-let odinLibrary = [];
-
-// book constructor
-function Book(id, title, author, pages, readStatus) {
-  if (!new.target) {
-    throw new Error("use 'new' to create new book");
+// Library class
+class Library {
+  constructor() {
+    this._bookList = [];
   }
-  this.id = id;
-  this.title = title;
-  this.author = author;
-  this.pages = pages;
-  this.readStatus = readStatus;
+
+  get bookList() {
+    return this._bookList;
+  }
+
+  set bookList(list) {
+    this._bookList = list;
+  }
+
+  addBookToLibrary(book) {
+    this._bookList.push(book);
+  }
 }
 
-// add book to list
-function addBookToLibrary(title, author, pages, read) {
-  let newBook = new Book(crypto.randomUUID(), title, author, pages, read);
-  odinLibrary.push(newBook);
+// Book class
+class Book {
+  constructor(id, title, author, pages, readStatus) {
+    this.id = id;
+    this.title = title;
+    this.author = author;
+    this.pages = pages;
+    this.readStatus = readStatus;
+  }
+
+  get id() {
+    return this._id;
+  }
+
+  set id(id) {
+    this._id = id;
+  }
+
+  get title() {
+    return this._title;
+  }
+
+  set title(title) {
+    this._title = title;
+  }
+
+  get author() {
+    return this._author;
+  }
+
+  set author(author) {
+    this._author = author;
+  }
+
+  get pages() {
+    return this._pages;
+  }
+
+  set pages(pages) {
+    this._pages = pages;
+  }
+
+  get readStatus() {
+    return this._readStatus;
+  }
+
+  set readStatus(readStatus) {
+    this._readStatus = readStatus;
+  }
 }
 
 // render table
@@ -26,13 +75,13 @@ function renderTable() {
   tbody.innerHTML = "";
 
   // add books to table
-  for (let book of odinLibrary) {
+  for (let book of odinLibrary.bookList) {
     const tr = document.createElement("tr");
     tr.classList.add("book-entry");
     tr.dataset.uuid = book.id;
     const pairs = Object.entries(book);
     for ([key, value] of pairs) {
-      if (key === "id") {
+      if (key === "_id") {
         continue;
       }
       const td = document.createElement("td");
@@ -53,6 +102,7 @@ function renderTable() {
       document.querySelector("#book-form").reset();
       let form = document.querySelector("#book-form");
       const pairs = Object.entries(book);
+      console.log(pairs);
       for ([key, value] of pairs) {
         let field = form.querySelector(`#${key}`);
         if (field) {
@@ -65,7 +115,7 @@ function renderTable() {
     // delete book
     popupOptionDelete.addEventListener("click", function () {
       const tr = this.closest("tr");
-      odinLibrary = odinLibrary.filter(function (book) {
+      odinLibrary.bookList = odinLibrary.bookList.filter(function (book) {
         return book.id !== tr.dataset.uuid;
       });
       renderTable();
@@ -135,17 +185,22 @@ document
 
     const submitButton = document.querySelector("#submit-button");
     if (submitButton.dataset.function === "add") {
-      addBookToLibrary(
-        formData.get("title"),
-        formData.get("author"),
-        formData.get("pages"),
-        formData.get("readStatus"),
+      odinLibrary.addBookToLibrary(
+        new Book(
+          crypto.randomUUID(),
+          formData.get("title"),
+          formData.get("author"),
+          formData.get("pages"),
+          formData.get("readStatus"),
+        ),
       );
     } else {
-      let modified = odinLibrary.findIndex((x) => x.id === formData.get("id"));
+      let modified = odinLibrary.bookList.findIndex(
+        (x) => x.id === formData.get("id"),
+      );
 
       for ([key, value] of formData.entries()) {
-        odinLibrary[modified][`${key}`] = value;
+        odinLibrary.bookList[modified][`${key}`] = value;
       }
     }
     const dialog = document.querySelector("#book-form-dialog");
@@ -173,18 +228,28 @@ function validateNumberOfPagesInput(pages) {
   return false;
 }
 
-addBookToLibrary("Neuromancer", "William Gibson", "271", "Read");
-addBookToLibrary(
-  "Make It Stick: The Science of Successful Learning",
-  "Peter C. Brown, Henry L. Roediger III, Mark A. McDaniel",
-  "336",
-  "Reading",
+const odinLibrary = new Library();
+
+odinLibrary.addBookToLibrary(
+  new Book(crypto.randomUUID(), "Neuromancer", "William Gibson", "271", "Read"),
 );
-addBookToLibrary(
-  "Design Patterns: Elements of Reusable Object-Oriented Software",
-  " Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides",
-  "416",
-  "Unread",
+odinLibrary.addBookToLibrary(
+  new Book(
+    crypto.randomUUID(),
+    "Make It Stick: The Science of Successful Learning",
+    "Peter C. Brown, Henry L. Roediger III, Mark A. McDaniel",
+    "336",
+    "Reading",
+  ),
+);
+odinLibrary.addBookToLibrary(
+  new Book(
+    crypto.randomUUID(),
+    "Design Patterns: Elements of Reusable Object-Oriented Software",
+    " Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides",
+    "416",
+    "Unread",
+  ),
 );
 
 renderTable();
