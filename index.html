@@ -9,19 +9,22 @@
   </head>
   <body>
     <dialog id="book-form-dialog">
-      <form id="book-form">
+      <form novalidate id="book-form">
         <input type="text" id="_id" name="id" value="" readonly />
         <div class="form-field">
           <label for="_title">Title</label>
           <input type="text" id="_title" name="title" value="" required />
+          <span class="error" id="title-error" aria-live"polite"></span>
         </div>
         <div class="form-field">
           <label for="_author">Author</label>
-          <input type="text" id="_author" name="author" value="" />
+          <input type="text" id="_author" name="author" value="" required/>
+          <span class="error" id="author-error" aria-live"polite"></span>
         </div>
         <div class="form-field">
           <label for="_pages">Pages</label>
-          <input type="tel" id="_pages" name="pages" value="" />
+          <input type="tel" id="_pages" name="pages" value="" pattern="[1-9][0-9]*"/>
+          <span class="error" id="pages-error" aria-live"polite"></span>
         </div>
         <div class="form-field">
           <label for="_readStatus">Read Status</label>

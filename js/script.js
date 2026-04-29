@@ -102,7 +102,6 @@ function renderTable() {
       document.querySelector("#book-form").reset();
       let form = document.querySelector("#book-form");
       const pairs = Object.entries(book);
-      console.log(pairs);
       for ([key, value] of pairs) {
         let field = form.querySelector(`#${key}`);
         if (field) {
@@ -171,17 +170,62 @@ window.addEventListener("click", ({ target }) => {
   }
 });
 
+document.querySelector("#book-form").addEventListener("submit", (e) => {
+  e.preventDefault();
+});
+
 // add/edit book and update table
 document
   .querySelector("#book-form")
   .addEventListener("submit", function (event) {
-    event.preventDefault();
-    const formData = new FormData(this);
+    // validations
+    const title = document.querySelector("#_title");
+    title.addEventListener("input", () => {
+      if (title.validity.valid) {
+        document.querySelector("#title-error").textContent = "";
+      }
+    });
 
-    if (!validateNumberOfPagesInput(formData.get("pages"))) {
-      alert("Bad pages input. Must be a positive integer!");
+    const author = document.querySelector("#_author");
+    author.addEventListener("input", () => {
+      if (author.validity.valid) {
+        document.querySelector("#author-error").textContent = "";
+      }
+    });
+
+    const pages = document.querySelector("#_pages");
+    pages.addEventListener("input", () => {
+      if (!pages.validity.patternMismatch) {
+        document.querySelector("#pages-error").textContent = "";
+      }
+    });
+
+    const errors = {};
+
+    if (!title.validity.valid) {
+      errors.title = "Title must be filled!";
+    }
+
+    if (!author.validity.valid) {
+      errors.author = "Author must be filled!";
+    }
+
+    if (pages.validity.patternMismatch) {
+      errors.pages = "Pages must be a positive integer!";
+    }
+
+    if (Object.keys(errors).length !== 0) {
+      displayErrors(errors);
+      event.preventDefault();
       return;
     }
+
+    const formData = new FormData(this);
+
+    // if (!validateNumberOfPagesInput(formData.get("pages"))) {
+    //   alert("Bad pages input. Must be a positive integer!");
+    //   return;
+    // }
 
     const submitButton = document.querySelector("#submit-button");
     if (submitButton.dataset.function === "add") {
@@ -211,9 +255,31 @@ document
 // show add book form modal/dialog
 document.querySelector("#add-book").addEventListener("click", () => {
   document.querySelector("#book-form").reset();
+
+  // clear error message
+  document.querySelector("#title-error").textContent = "";
+  document.querySelector("#author-error").textContent = "";
+  document.querySelector("#pages-error").textContent = "";
+
   document.querySelector("dialog").showModal();
   document.querySelector("#submit-button").dataset.function = "add";
 });
+
+function displayErrors(errors) {
+  const titleError = document.querySelector("#title-error");
+  const authorError = document.querySelector("#author-error");
+  const pagesError = document.querySelector("#pages-error");
+
+  if (Object.hasOwn(errors, "title")) {
+    titleError.textContent = errors.title;
+  }
+  if (Object.hasOwn(errors, "author")) {
+    authorError.textContent = errors.author;
+  }
+  if (Object.hasOwn(errors, "pages")) {
+    pagesError.textContent = errors.pages;
+  }
+}
 
 function validateNumberOfPagesInput(pages) {
   let numberOfPages = parseInt(pages);

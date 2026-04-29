@@ -12,6 +12,11 @@ dialog {
     label {
       margin-bottom: 0.25rem;
     }
+
+    .error {
+      width: 100%;
+      color: red;
+    }
   }
 
   .form-buttons {
